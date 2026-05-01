@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
-    private static BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     @Override
     public Book save(Book book) {
