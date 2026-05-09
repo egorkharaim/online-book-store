@@ -9,10 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class BookSpecificationBuilder implements SpecificationBuilder<Book> {
-    private final SpecificationProviderManager<Book> bookSpecificationProviderManager;
     private static final String AUTHOR_KEY = "author";
     private static final String TITLE_KEY = "title";
     private static final String ISBN_KEY = "isbn";
+
+    private final SpecificationProviderManager<Book> bookSpecificationProviderManager;
 
     @Override
     public Specification<Book> build(BookSearchParametersDto searchParameters) {
