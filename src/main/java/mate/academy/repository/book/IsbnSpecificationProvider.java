@@ -6,10 +6,11 @@ import mate.academy.repository.SpecificationProvider;
 import org.springframework.data.jpa.domain.Specification;
 
 public class IsbnSpecificationProvider implements SpecificationProvider<Book> {
+    private static final String FIELD_NAME = "isbn";
 
     @Override
     public String getKey() {
-        return "isbn";
+        return FIELD_NAME;
     }
 
     @Override
