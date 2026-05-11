@@ -1,8 +1,10 @@
 package mate.academy.dto;
 
+import java.util.Set;
+
 public record BookSearchParametersDto(
-        String[] titles,
-        String[] authors,
-        String[] isbns) {
+        Set<String> titles,
+        Set<String> authors,
+        Set<String> isbns) {
 
 }
