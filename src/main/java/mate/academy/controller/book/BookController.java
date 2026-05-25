@@ -1,4 +1,4 @@
-package mate.academy.controller;
+package mate.academy.controller.book;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -6,10 +6,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import mate.academy.dto.BookDto;
-import mate.academy.dto.BookSearchParametersDto;
-import mate.academy.dto.CreateBookRequestDto;
-import mate.academy.service.BookService;
+import mate.academy.dto.book.BookDto;
+import mate.academy.dto.book.BookSearchParametersDto;
+import mate.academy.dto.book.CreateBookRequestDto;
+import mate.academy.service.book.BookService;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

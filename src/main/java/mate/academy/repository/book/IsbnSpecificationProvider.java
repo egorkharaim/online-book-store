@@ -2,7 +2,7 @@ package mate.academy.repository.book;
 
 import java.util.Collection;
 import mate.academy.model.Book;
-import mate.academy.repository.SpecificationProvider;
+import mate.academy.repository.specification.SpecificationProvider;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 

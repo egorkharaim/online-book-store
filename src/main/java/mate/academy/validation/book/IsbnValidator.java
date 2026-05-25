@@ -1,4 +1,4 @@
-package mate.academy.validation;
+package mate.academy.validation.book;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
