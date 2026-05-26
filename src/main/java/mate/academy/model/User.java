@@ -28,14 +28,14 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, name = "first_name")
+    @Column(nullable = false)
     private String firstName;
 
-    @Column(nullable = false, name = "last_name")
+    @Column(nullable = false)
     private String lastName;
 
     private String shippingAddress;
 
-    @Column(nullable = false, name = "is_deleted")
+    @Column(nullable = false)
     private boolean isDeleted = false;
 }

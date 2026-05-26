@@ -1,5 +1,6 @@
 package mate.academy.controller.user;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.user.UserRegistrationRequestDto;
@@ -13,10 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthenticationController {
     private final UserService userService;
 
+    @Operation(summary = "Register a new user", description = "Creates a new user in the system")
     @PostMapping("/registration")
     public UserResponseDto register(@RequestBody @Valid UserRegistrationRequestDto requestDto)
             throws RegistrationException {
