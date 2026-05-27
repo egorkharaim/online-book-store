@@ -7,14 +7,17 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = IsbnValidator.class)
-@Target({ ElementType.PARAMETER, ElementType.FIELD })
+@Constraint(validatedBy = FieldMatchValidator.class)
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Isbn {
-    String message() default "Invalid format isbn";
+public @interface FieldMatch {
+    String message() default "Fields do not match";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
+    String first(); 
+
+    String second(); 
 }
