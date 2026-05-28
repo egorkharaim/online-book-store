@@ -2,7 +2,7 @@ package mate.academy.mapper;
 
 import mate.academy.dto.book.BookDto;
 import mate.academy.dto.book.CreateBookRequestDto;
-import mate.academy.model.Book;
+import mate.academy.model.book.Book;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
