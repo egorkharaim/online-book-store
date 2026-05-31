@@ -16,6 +16,7 @@ import mate.academy.model.user.RoleName;
 import mate.academy.model.user.User;
 import mate.academy.repository.user.RoleRepository;
 import mate.academy.repository.user.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import mate.academy.security.JwtUtil;
 
@@ -26,17 +27,22 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
     @Override
     public UserResponseDto register(
             UserRegistrationRequestDto requestDto) throws RegistrationException {
+        if (userRepository.existsByEmail(requestDto.email())) {
+            throw new RegistrationException("This email: "
+                    + requestDto.email()
+                    + " is already taken");
+        }
+
         User user = userMapper.toModel(requestDto);
 
-        if (userRepository.existsByEmail(requestDto.email())) {
-            throw new RegistrationException("This email: " + user.getEmail() + " is already taken");
-        }
+        user.setPassword(passwordEncoder.encode(requestDto.password()));
 
         Role userRole = roleRepository.findByName(RoleName.USER)
                 .orElseThrow(() -> new RegistrationException("Can't find default role USER"));
