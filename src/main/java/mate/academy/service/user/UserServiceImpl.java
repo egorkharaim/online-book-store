@@ -1,7 +1,12 @@
 package mate.academy.service.user;
 
 import java.util.Set;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import lombok.RequiredArgsConstructor;
+import mate.academy.dto.user.UserLoginRequestDto;
+import mate.academy.dto.user.UserLoginResponseDto;
 import mate.academy.dto.user.UserRegistrationRequestDto;
 import mate.academy.dto.user.UserResponseDto;
 import mate.academy.exception.RegistrationException;
@@ -12,6 +17,7 @@ import mate.academy.model.user.User;
 import mate.academy.repository.user.RoleRepository;
 import mate.academy.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
+import mate.academy.security.JwtUtil;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +26,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
     @Override
     public UserResponseDto register(
@@ -37,6 +45,16 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.toDto(userRepository.save(user));
 
+    }
+
+    @Override
+    public UserLoginResponseDto authenticate(UserLoginRequestDto request) {
+        final Authentication authentification = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(
+                    request.email(),
+                    request.password()));
+        String token = jwtUtil.generateToken(request.email());
+        return new UserLoginResponseDto(token);
     }
 
 }
