@@ -1,9 +1,6 @@
 package mate.academy.service.user;
 
 import java.util.Set;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.user.UserLoginRequestDto;
 import mate.academy.dto.user.UserLoginResponseDto;
@@ -16,9 +13,12 @@ import mate.academy.model.user.RoleName;
 import mate.academy.model.user.User;
 import mate.academy.repository.user.RoleRepository;
 import mate.academy.repository.user.UserRepository;
+import mate.academy.security.JwtUtil;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import mate.academy.security.JwtUtil;
 
 @Service
 @RequiredArgsConstructor
