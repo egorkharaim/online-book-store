@@ -1,6 +1,6 @@
 package mate.academy.repository.book;
 
-import mate.academy.model.Book;
+import mate.academy.model.book.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

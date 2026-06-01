@@ -7,7 +7,7 @@ import mate.academy.dto.book.BookSearchParametersDto;
 import mate.academy.dto.book.CreateBookRequestDto;
 import mate.academy.exception.EntityNotFoundException;
 import mate.academy.mapper.BookMapper;
-import mate.academy.model.Book;
+import mate.academy.model.book.Book;
 import mate.academy.repository.book.BookRepository;
 import mate.academy.repository.book.BookSpecificationBuilder;
 import org.springframework.data.domain.Page;
