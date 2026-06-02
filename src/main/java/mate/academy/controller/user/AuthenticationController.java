@@ -8,7 +8,7 @@ import mate.academy.dto.user.UserLoginResponseDto;
 import mate.academy.dto.user.UserRegistrationRequestDto;
 import mate.academy.dto.user.UserResponseDto;
 import mate.academy.exception.RegistrationException;
-import mate.academy.security.JwtUtil;
+import mate.academy.service.user.AuthenticationService;
 import mate.academy.service.user.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthenticationController {
     private final UserService userService;
-    private final JwtUtil jwtUtil;
+    private final AuthenticationService authenticationService;
 
     @Operation(summary = "Register a new user", description = "Creates a new user in the system")
     @PostMapping("/registration")
@@ -30,7 +30,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public UserLoginResponseDto login(@RequestBody UserLoginRequestDto request) {
-        return userService.authenticate(request);
+    @Operation(summary = "Login to the system",
+                 description = "Get a JWT token by email and password")
+    public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto request) {
+        return authenticationService.authenticate(request);
     }
 }
