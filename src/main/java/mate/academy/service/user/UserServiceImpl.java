@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-
+    
     @Override
     public UserResponseDto register(
             UserRegistrationRequestDto requestDto) throws RegistrationException {

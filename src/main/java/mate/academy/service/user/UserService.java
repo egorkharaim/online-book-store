@@ -6,4 +6,5 @@ import mate.academy.exception.RegistrationException;
 
 public interface UserService {
     UserResponseDto register(UserRegistrationRequestDto requestDto) throws RegistrationException;
+
 }
