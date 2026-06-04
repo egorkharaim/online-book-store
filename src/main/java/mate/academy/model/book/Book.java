@@ -45,7 +45,7 @@ public class Book {
     private BigDecimal price;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "book_category",
+    @JoinTable(name = "books_categories",
                 joinColumns = @JoinColumn(name = "book_id"), 
                 inverseJoinColumns = @JoinColumn(name = "category_id"))
     @ToString.Exclude
