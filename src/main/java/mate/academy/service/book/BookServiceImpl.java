@@ -1,31 +1,40 @@
 package mate.academy.service.book;
 
+import jakarta.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.book.BookDto;
 import mate.academy.dto.book.BookSearchParametersDto;
 import mate.academy.dto.book.CreateBookRequestDto;
+import mate.academy.dto.category.BookDtoWithoutCategoryIds;
 import mate.academy.exception.EntityNotFoundException;
 import mate.academy.mapper.BookMapper;
+import mate.academy.model.Category;
 import mate.academy.model.book.Book;
 import mate.academy.repository.book.BookRepository;
 import mate.academy.repository.book.BookSpecificationBuilder;
+import mate.academy.repository.category.CategoryRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final BookSpecificationBuilder bookSpecificationBuilder;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
         Book book = bookMapper.toModel(requestDto);
+        setCategoriesToBook(book, requestDto.getCategoryIds());
         return bookMapper.toDto(bookRepository.save(book));
     }
 
@@ -47,6 +56,7 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Can't find a book by id:" + id));
         bookMapper.updateBookFromDto(requestDto, book);
+        setCategoriesToBook(book, requestDto.getCategoryIds());
         return bookMapper.toDto(bookRepository.save(book));
     }
 
@@ -63,5 +73,19 @@ public class BookServiceImpl implements BookService {
                 .map(bookMapper::toDto)
                 .toList();
 
+    }
+
+    @Override
+    public List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId) {
+        return bookRepository.findAllByCategoriesId(categoryId).stream()
+                .map(bookMapper::toDtoWithoutCategories)
+                .toList();
+    }
+
+    private void setCategoriesToBook(Book book, Set<Long> categoryIds) {
+        if (categoryIds != null) {
+            Set<Category> categories = new HashSet<>(categoryRepository.findAllById(categoryIds));
+            book.setCategories(categories);
+        }
     }
 }

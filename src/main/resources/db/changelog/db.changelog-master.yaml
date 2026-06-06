@@ -8,4 +8,8 @@ databaseChangeLog:
   - include:
       file: db/changelog/changes/v4__create_users_roles_table.yaml
   - include:
-      file: db/changelog/changes/v5__add_roles_and_users.yaml     
+      file: db/changelog/changes/v5__add_roles_and_users.yaml
+  - include:
+      file: db/changelog/changes/v6__create_categories_table.yaml
+  - include:
+      file: db/changelog/changes/v7__create_book_category_table.yaml
