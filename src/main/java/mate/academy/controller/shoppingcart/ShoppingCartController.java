@@ -9,6 +9,7 @@ import mate.academy.dto.shoppingcart.CartItemUpdateDto;
 import mate.academy.dto.shoppingcart.ShoppingCartDto;
 import mate.academy.model.user.User;
 import mate.academy.service.shoppingcart.ShoppingCartService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,11 +28,13 @@ public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
 
     @GetMapping
+    @PreAuthorize("hasRole('USER')")
     public ShoppingCartDto getShoppingCart(@AuthenticationPrincipal User user) {
         return shoppingCartService.getTheCart(user.getId());
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('USER')")
     public CartItemDto addCartItem(
             @AuthenticationPrincipal User user,
             @RequestBody @Valid CartItemRequestDto requestDto) {
@@ -39,6 +42,7 @@ public class ShoppingCartController {
     }
 
     @PutMapping("/items/{cartItemId}")
+    @PreAuthorize("hasRole('USER')")
     public CartItemDto updateCartItem(
             @AuthenticationPrincipal User user,
             @PathVariable Long cartItemId,
@@ -47,6 +51,7 @@ public class ShoppingCartController {
     }
 
     @DeleteMapping("/items/{cartItemId}")
+    @PreAuthorize("hasRole('USER')")
     public void deleteCartItem(
             @AuthenticationPrincipal User user,
             @PathVariable Long cartItemId) {
