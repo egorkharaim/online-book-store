@@ -6,15 +6,19 @@ import mate.academy.dto.user.UserRegistrationRequestDto;
 import mate.academy.dto.user.UserResponseDto;
 import mate.academy.exception.RegistrationException;
 import mate.academy.mapper.UserMapper;
+import mate.academy.model.ShoppingCart;
 import mate.academy.model.user.Role;
 import mate.academy.model.user.RoleName;
 import mate.academy.model.user.User;
+import mate.academy.repository.shoppingcart.ShoppingCartRepository;
 import mate.academy.repository.user.RoleRepository;
 import mate.academy.repository.user.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -22,7 +26,8 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    
+    private final ShoppingCartRepository shoppingCartRepository;
+
     @Override
     public UserResponseDto register(
             UserRegistrationRequestDto requestDto) throws RegistrationException {
@@ -41,7 +46,15 @@ public class UserServiceImpl implements UserService {
 
         user.setRoles(Set.of(userRole));
 
-        return userMapper.toDto(userRepository.save(user));
+        User savedUser = userRepository.save(user);
+
+        ShoppingCart shoppingCart = new ShoppingCart();
+
+        shoppingCart.setUser(savedUser);
+
+        shoppingCartRepository.save(shoppingCart);
+
+        return userMapper.toDto(savedUser);
 
     }
 

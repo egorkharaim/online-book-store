@@ -1,7 +1,4 @@
-package mate.academy.dto.shoppingCart;
-
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+package mate.academy.dto.shoppingcart;
 
 public record CartItemDto(Long id,
         Long bookId,

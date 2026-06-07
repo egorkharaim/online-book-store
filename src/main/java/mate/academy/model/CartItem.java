@@ -1,7 +1,5 @@
 package mate.academy.model;
 
-import mate.academy.model.book.Book;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,6 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import mate.academy.model.book.Book;
 
 @Entity
 @Getter
@@ -20,15 +19,17 @@ import lombok.Setter;
 @Table(name = "cart_items")
 public class CartItem {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="shopping_cart_id")
+    @JoinColumn(name = "shopping_cart_id")
     private ShoppingCart shoppingCart;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="book_id", nullable = false)
+    @JoinColumn(name = "book_id", nullable = false)
     private Book book;
+
     @Column(nullable = false)
     private int quantity;
 

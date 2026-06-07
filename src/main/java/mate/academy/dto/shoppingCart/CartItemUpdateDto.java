@@ -1,4 +1,4 @@
-package mate.academy.dto.shoppingCart;
+package mate.academy.dto.shoppingcart;
 
 import jakarta.validation.constraints.Min;
 
