@@ -4,9 +4,10 @@ import mate.academy.dto.shoppingcart.CartItemDto;
 import mate.academy.dto.shoppingcart.CartItemRequestDto;
 import mate.academy.dto.shoppingcart.CartItemUpdateDto;
 import mate.academy.dto.shoppingcart.ShoppingCartDto;
+import mate.academy.model.user.User;
 
 public interface ShoppingCartService {
-    ShoppingCartDto getTheCart(Long userId);
+    ShoppingCartDto getCart(Long userId);
 
     CartItemDto addCartItem(Long userId, CartItemRequestDto requestDto);
 
@@ -14,4 +15,5 @@ public interface ShoppingCartService {
 
     void deleteCartItem(Long userId, Long cartItemId);
 
+    void createShoppingCartForUser(User user);
 }

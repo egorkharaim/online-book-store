@@ -8,7 +8,6 @@ import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring") 
@@ -26,13 +25,4 @@ public abstract class BookMapper {
     public abstract void updateBookFromDto(CreateBookRequestDto requestDto,
             @MappingTarget Book book);
     
-    @Named("bookFromId")
-    Book bookFromId(Long id) {
-        if (id == null) {
-            return null;
-        }
-        Book book = new Book();
-        book.setId(id);
-        return book;
-    }
 }

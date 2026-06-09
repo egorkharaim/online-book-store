@@ -30,7 +30,7 @@ public class ShoppingCartController {
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     public ShoppingCartDto getShoppingCart(@AuthenticationPrincipal User user) {
-        return shoppingCartService.getTheCart(user.getId());
+        return shoppingCartService.getCart(user.getId());
     }
 
     @PostMapping
