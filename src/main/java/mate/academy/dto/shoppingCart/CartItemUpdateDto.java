@@ -1,8 +1,8 @@
 package mate.academy.dto.shoppingcart;
 
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 
 public record CartItemUpdateDto(
-        @Min(1) int quantity) {
+        @Positive int quantity) {
 
 }

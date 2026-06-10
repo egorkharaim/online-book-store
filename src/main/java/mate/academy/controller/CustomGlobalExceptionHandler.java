@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import mate.academy.exception.EntityNotFoundException;
 import mate.academy.exception.RegistrationException;
-import mate.academy.exception.ShoppingCartDoesNotBelongToUserException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -55,15 +54,6 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         body.put("timestamp", LocalDateTime.now());
         body.put("error", ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(ShoppingCartDoesNotBelongToUserException.class)
-    public ResponseEntity<Object> handleShoppingCartException(
-            ShoppingCartDoesNotBelongToUserException ex) {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("error", ex.getMessage());
-        return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
     }
 
     private String getErrorMessage(ObjectError e) {
