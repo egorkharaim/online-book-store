@@ -24,4 +24,5 @@ public abstract class BookMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public abstract void updateBookFromDto(CreateBookRequestDto requestDto,
             @MappingTarget Book book);
+    
 }
