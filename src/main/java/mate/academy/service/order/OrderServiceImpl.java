@@ -47,10 +47,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderItemDto getOrderItem(Long userId, Long orderId, Long itemId) {
-        OrderItem orderItem = orderItemRepository.findByIdAndOrderIdAndOrderUserId(itemId, orderId, userId)
+        OrderItem orderItem = orderItemRepository
+                .findByIdAndOrderIdAndOrderUserId(itemId, orderId, userId)
                 .orElseThrow(() -> new EntityNotFoundException(
                 "Can't find order item with id: " + itemId + " in order: " + orderId));
-        
+
         return orderItemMapper.toDto(orderItem);
     }
 
@@ -58,7 +59,7 @@ public class OrderServiceImpl implements OrderService {
     public Page<OrderItemDto> getOrderItems(Long userId, Long orderId, Pageable pageable) {
         Order order = getOrderForUser(userId, orderId);
         return orderItemRepository.findAllByOrderId(order.getId(), pageable)
-                .map(orderItemMapper::toDto); 
+                .map(orderItemMapper::toDto);
     }
 
     @Override
@@ -67,8 +68,11 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new EntityNotFoundException(
                 "Can't find shopping cart for user with id: " + userId));
 
-        if (shoppingCart.getCartItems().isEmpty()) {
-            throw new OrderProcessingException("Cannot place an order with an empty shopping cart for user id: " + userId);
+        if (shoppingCart.getCartItems()
+                .isEmpty()) {
+            throw new OrderProcessingException(
+                    "Cannot place an order with an empty shopping cart for user id: "
+                    + userId);
         }
 
         Order order = new Order();
@@ -107,7 +111,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto updateStatus(Long orderId, UpdateOrderStatusDto statusDto) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Can't find order with id: " + orderId));
+                "Can't find order with id: " + orderId));
 
         order.setStatus(statusDto.status());
         return orderMapper.toDto(order);
