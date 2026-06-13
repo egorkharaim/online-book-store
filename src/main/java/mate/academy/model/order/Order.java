@@ -20,10 +20,8 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import mate.academy.model.user.User;
-import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.type.SqlTypes;
 
 @Entity
 @Getter
@@ -42,7 +40,6 @@ public class Order {
     private User user;
 
     @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(nullable = false)
     private Status status;
     @Column(nullable = false)

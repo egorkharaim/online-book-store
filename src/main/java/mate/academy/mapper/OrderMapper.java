@@ -5,11 +5,8 @@ import mate.academy.model.order.Order;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = OrderItemMapper.class)
 public interface OrderMapper {
-
-    @Mapping(target = "userId", ignore = true)
-    @Mapping(target = "orderItems", ignore = true)
+    @Mapping(source = "user.id", target = "userId")
     OrderDto toDto(Order order);
 }
-

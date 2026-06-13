@@ -5,6 +5,7 @@ import mate.academy.dto.order.CreateOrderRequestDto;
 import mate.academy.dto.order.OrderDto;
 import mate.academy.dto.order.OrderItemDto;
 import mate.academy.dto.order.UpdateOrderStatusDto;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface OrderService {
@@ -15,7 +16,7 @@ public interface OrderService {
 
     OrderDto updateStatus(Long orderId, UpdateOrderStatusDto statusDto);
 
-    List<OrderItemDto> getOrderItems(Long userId, Long orderId, Pageable pageable);
+    Page<OrderItemDto> getOrderItems(Long userId, Long orderId, Pageable pageable);
 
     OrderItemDto getOrderItem(Long userId, Long orderId, Long itemId);
 }
