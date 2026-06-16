@@ -1,6 +1,5 @@
 package mate.academy.service.order;
 
-import java.util.List;
 import mate.academy.dto.order.CreateOrderRequestDto;
 import mate.academy.dto.order.OrderDto;
 import mate.academy.dto.order.OrderItemDto;
@@ -12,7 +11,7 @@ public interface OrderService {
 
     OrderDto placeOrder(Long userId, CreateOrderRequestDto requestDto);
 
-    List<OrderDto> getOrderHistory(Long userId, Pageable pageable);
+    Page<OrderDto> getOrderHistory(Long userId, Pageable pageable);
 
     OrderDto updateStatus(Long orderId, UpdateOrderStatusDto statusDto);
 

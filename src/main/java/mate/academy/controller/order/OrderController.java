@@ -1,9 +1,8 @@
-package mate.academy.controller;
+package mate.academy.controller.order;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.order.CreateOrderRequestDto;
 import mate.academy.dto.order.OrderDto;
@@ -45,7 +44,7 @@ public class OrderController {
     @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Get order history", 
                  description = "Retrieve the order history for the currently logged-in user")
-    public List<OrderDto> getOrderHistory(
+    public Page<OrderDto> getOrderHistory(
             @AuthenticationPrincipal User user,
             Pageable pageable) {
         return orderService.getOrderHistory(user.getId(), pageable);

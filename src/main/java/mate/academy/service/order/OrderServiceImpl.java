@@ -4,7 +4,6 @@ import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.order.CreateOrderRequestDto;
@@ -39,10 +38,9 @@ public class OrderServiceImpl implements OrderService {
     private final OrderItemMapper orderItemMapper;
 
     @Override
-    public List<OrderDto> getOrderHistory(Long userId, Pageable pageable) {
-        return orderRepository.findAllByUserId(userId, pageable).stream()
-                .map(orderMapper::toDto)
-                .toList();
+    public Page<OrderDto> getOrderHistory(Long userId, Pageable pageable) {
+        return orderRepository.findAllByUserId(userId, pageable)
+                .map(orderMapper::toDto);
     }
 
     @Override
