@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
@@ -55,8 +56,8 @@ class CategoryControllerTest {
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void createCategory_WithValidRequestDto_ReturnsCreatedCategoryDto() throws Exception {
         // Given
-        CreateCategoryRequestDto requestDto =
-                new CreateCategoryRequestDto("Fantasy", "Fantasy books");
+        CreateCategoryRequestDto requestDto
+                = new CreateCategoryRequestDto("Fantasy", "Fantasy books");
 
         CategoryDto expected = new CategoryDto(1L, requestDto.name(), requestDto.description());
 
@@ -146,5 +147,19 @@ class CategoryControllerTest {
 
         Assertions.assertTrue(actual.contains("The Hobbit"));
         Assertions.assertTrue(actual.contains("Harry Potter"));
+    }
+
+    @Test
+    @DisplayName("Delete category by id when valid id is provided")
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    void deleteCategoryById_WithValidId_ReturnsNoContent() throws Exception {
+        // Given
+        Long categoryId = 1L;
+
+        // When
+        mockMvc.perform(delete("/categories/{id}", categoryId))
+        .andExpect(status().isNoContent());
+
+        // Then
     }
 }
