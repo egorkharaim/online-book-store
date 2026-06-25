@@ -1,5 +1,8 @@
 package mate.academy.service.category;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -10,7 +13,6 @@ import mate.academy.exception.EntityNotFoundException;
 import mate.academy.mapper.CategoryMapper;
 import mate.academy.model.Category;
 import mate.academy.repository.category.CategoryRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,7 +54,9 @@ class CategoryServiceImplTest {
         CategoryDto actual = categoryService.getById(categoryId);
 
         // Then
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
+        verify(categoryRepository).findById(categoryId);
+        verify(categoryMapper).toDto(category);
     }
 
     @Test
@@ -64,16 +68,17 @@ class CategoryServiceImplTest {
         when(categoryRepository.findById(categoryId)).thenReturn(Optional.empty());
 
         // When
-        Exception exception = Assertions.assertThrows(
+        Exception exception = assertThrows(
                 EntityNotFoundException.class,
                 () -> categoryService.getById(categoryId)
         );
 
         // Then
-        Assertions.assertEquals(
+        assertEquals(
                 "Can't find category with id: " + categoryId,
                 exception.getMessage()
         );
+        verify(categoryRepository).findById(categoryId);
     }
 
     @Test
@@ -102,7 +107,10 @@ class CategoryServiceImplTest {
         CategoryDto actual = categoryService.save(requestDto);
 
         // Then
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
+        verify(categoryMapper).toModel(requestDto);
+        verify(categoryRepository).save(category);
+        verify(categoryMapper).toDto(savedCategory);
     }
 
     @Test
@@ -138,7 +146,10 @@ class CategoryServiceImplTest {
         CategoryDto actual = categoryService.update(categoryId, requestDto);
 
         // Then
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
+        verify(categoryRepository).findById(categoryId);
+        verify(categoryRepository).save(categoryFromDb);
+        verify(categoryMapper).toDto(updatedCategory);
     }
 
     @Test
@@ -177,8 +188,11 @@ class CategoryServiceImplTest {
         Page<CategoryDto> actual = categoryService.findAll(PageRequest.of(0, 10));
 
         // Then
-        Assertions.assertEquals(2, actual.getTotalElements());
-        Assertions.assertEquals(firstCategoryDto, actual.getContent().get(0));
-        Assertions.assertEquals(secondCategoryDto, actual.getContent().get(1));
+        assertEquals(2, actual.getTotalElements());
+        assertEquals(firstCategoryDto, actual.getContent().get(0));
+        assertEquals(secondCategoryDto, actual.getContent().get(1));
+        verify(categoryRepository).findAll(PageRequest.of(0, 10));
+        verify(categoryMapper).toDto(firstCategory);
+        verify(categoryMapper).toDto(secondCategory);
     }
 }

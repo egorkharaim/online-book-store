@@ -1,9 +1,10 @@
 package mate.academy.repository.book;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.List;
+import mate.academy.config.CustomMySqlContainer;
 import mate.academy.model.book.Book;
-import mate.academy.repository.CustomMySqlContainer;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Testcontainers
+@Testcontainers(disabledWithoutDocker = true)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class BookRepositoryTest {
@@ -35,7 +36,7 @@ class BookRepositoryTest {
     void findAllByCategoriesId_WithExistingCategoryId_ReturnsOneBook() {
         List<Book> actual = bookRepository.findAllByCategoriesId(1L);
 
-        Assertions.assertEquals(1, actual.size());
-        Assertions.assertEquals("The Hobbit", actual.get(0).getTitle());
+        assertEquals(1, actual.size());
+        assertEquals("The Hobbit", actual.get(0).getTitle());
     }
 }

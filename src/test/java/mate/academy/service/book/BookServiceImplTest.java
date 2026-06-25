@@ -1,5 +1,8 @@
 package mate.academy.service.book;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
@@ -16,7 +19,6 @@ import mate.academy.model.book.Book;
 import mate.academy.repository.book.BookRepository;
 import mate.academy.repository.book.BookSpecificationBuilder;
 import mate.academy.repository.category.CategoryRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -69,7 +71,9 @@ class BookServiceImplTest {
         BookDto actual = bookService.getBookById(bookId);
 
         // Then
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
+        verify(bookRepository).findById(bookId);
+        verify(bookMapper).toDto(book);
     }
 
     @Test
@@ -81,13 +85,14 @@ class BookServiceImplTest {
         when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
 
         // When
-        Exception exception = Assertions.assertThrows(
+        Exception exception = assertThrows(
                 EntityNotFoundException.class,
                 () -> bookService.getBookById(bookId)
         );
 
         // Then
-        Assertions.assertEquals("Can't find book by id: " + bookId, exception.getMessage());
+        assertEquals("Can't find book by id: " + bookId, exception.getMessage());
+        verify(bookRepository).findById(bookId);
     }
 
     @Test
@@ -145,7 +150,11 @@ class BookServiceImplTest {
         BookDto actual = bookService.save(requestDto);
 
         // Then
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
+        verify(bookMapper).toModel(requestDto);
+        verify(categoryRepository).findAllById(requestDto.getCategoryIds());
+        verify(bookRepository).save(book);
+        verify(bookMapper).toDto(savedBook);
     }
 
     @Test
@@ -205,7 +214,11 @@ class BookServiceImplTest {
         BookDto actual = bookService.update(bookId, requestDto);
 
         // Then
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
+        verify(bookRepository).findById(bookId);
+        verify(categoryRepository).findAllById(requestDto.getCategoryIds());
+        verify(bookRepository).save(bookFromDb);
+        verify(bookMapper).toDto(updatedBook);
     }
 
     @Test
@@ -226,13 +239,14 @@ class BookServiceImplTest {
         when(bookRepository.findById(bookId)).thenReturn(Optional.empty());
 
         // When
-        Exception exception = Assertions.assertThrows(
+        Exception exception = assertThrows(
                 EntityNotFoundException.class,
                 () -> bookService.update(bookId, requestDto)
         );
 
         // Then
-        Assertions.assertEquals("Can't find a book by id:" + bookId, exception.getMessage());
+        assertEquals("Can't find a book by id:" + bookId, exception.getMessage());
+        verify(bookRepository).findById(bookId);
     }
 
     @Test
@@ -288,8 +302,11 @@ class BookServiceImplTest {
         List<BookDtoWithoutCategoryIds> actual = bookService.findAllByCategoryId(categoryId);
 
         // Then
-        Assertions.assertEquals(2, actual.size());
-        Assertions.assertEquals(firstBookDto, actual.get(0));
-        Assertions.assertEquals(secondBookDto, actual.get(1));
+        assertEquals(2, actual.size());
+        assertEquals(firstBookDto, actual.get(0));
+        assertEquals(secondBookDto, actual.get(1));
+        verify(bookRepository).findAllByCategoriesId(categoryId);
+        verify(bookMapper).toDtoWithoutCategories(firstBook);
+        verify(bookMapper).toDtoWithoutCategories(secondBook);
     }
 }
