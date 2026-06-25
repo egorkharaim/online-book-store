@@ -72,7 +72,7 @@ class BookControllerTest {
         expected.setTitle("The Hobbit");
         expected.setAuthor("J.R.R. Tolkien");
         expected.setIsbn("978-0-26110-2");
-        expected.setPrice(BigDecimal.valueOf(45.50));
+        expected.setPrice(BigDecimal.valueOf(46));
         expected.setDescription("A great adventure");
         expected.setCoverImage("hobbit.jpg");
 
